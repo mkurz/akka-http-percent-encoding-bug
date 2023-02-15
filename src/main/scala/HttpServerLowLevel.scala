@@ -3,6 +3,7 @@ import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.HttpMethods._
 import akka.http.scaladsl.model._
+import com.typesafe.config.ConfigFactory
 
 import scala.concurrent.ExecutionContext
 import scala.io.StdIn
@@ -10,7 +11,8 @@ import scala.io.StdIn
 object HttpServerLowLevel {
 
   def main(args: Array[String]): Unit = {
-    implicit val system = ActorSystem(Behaviors.empty, "lowlevel")
+    implicit val system = ActorSystem(Behaviors.empty, "lowlevel",
+      config = ConfigFactory.parseString("akka.http.server.preview.enable-http2 = on"))
     // needed for the future map/flatmap in the end
     implicit val executionContext: ExecutionContext = system.executionContext
 
